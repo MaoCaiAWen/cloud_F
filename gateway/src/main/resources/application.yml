@@ -5,10 +5,10 @@ spring:
     name: cloud-gateway-eureka
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
-          lowerCaseServiceId: true
+     discovery:
+      locator:
+        enabled: true #支持使用eureka的serviceId进行匹配，注意使用中划线而不是下划线
+        lowerCaseServiceId: true #注意开启小写的话均必须使用小写
 eureka:
   client:
     service-url:

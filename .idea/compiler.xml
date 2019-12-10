@@ -6,8 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="consumer6001" />
+        <module name="consumer6002" />
         <module name="eureka" />
         <module name="gateway" />
+        <module name="producer7001" />
+        <module name="producer7002" />
       </profile>
     </annotationProcessing>
   </component>
