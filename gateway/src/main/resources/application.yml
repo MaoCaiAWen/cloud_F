@@ -3,12 +3,90 @@ server:
 spring:
   application:
     name: cloud-gateway-eureka
+  redis:
+    host: localhost
+    password:
+    port: 6379
   cloud:
     gateway:
-     discovery:
-      locator:
-        enabled: true #支持使用eureka的serviceId进行匹配，注意使用中划线而不是下划线
-        lowerCaseServiceId: true #注意开启小写的话均必须使用小写
+      discovery:
+        locator:
+          enabled: true #支持使用eureka的serviceId进行匹配，注意使用中划线而不是下划线
+          lowerCaseServiceId: true #注意开启小写的话均必须使用小写
+      routes:
+        - id: example_routes #自定义路由拦截器
+          uri: lb://cloud-consumer
+          predicates:
+          - Path=/test/**
+          filters:
+          - name: Example  #浏览器访问http://localhost:8888/test?name=MC 测试，查看控制台输出
+            args:
+              op: root
+              type: he
+
+        - id: requestratelimiter_route #依赖于redis的限速路由
+          uri: lb://cloud-producer
+          filters:
+          - name: RequestRateLimiter #名称必须是 RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 10 #允许用户每秒处理多少个请求
+            redis-rate-limiter.burstCapacity: 20 #令牌桶的容量，允许在一秒钟内完成的最大请求数
+            key-resolver: "#{@remoteAddrKeyResolver}" #用于限流的键的解析器的 Bean 对象名字（有些绕，看代码吧）。它使用 SpEL 表达式根据#{@beanName} 从 Spring 容器中获取 Bean 对象。默认情况下，使用 PrincipalNameKeyResolver，以请求认证的 java.security.Principal 作为限流键。
+          #            key-resolver: "#{@userKeyResolver}"
+          predicates:
+          - Method=GET
+
+        - id: add_request_parameter_route
+          uri: lb://cloud-producer
+          filters:
+          - AddRequestParameter=foo, bar #对接口foo添加入参值为bar
+          - AddResponseHeader=X-Response-Default-Foo, Default-Bar #对接口添加header信息
+          predicates:
+            - Method=GET
+
+        - id: nameRoot
+          uri: lb://cloud-producer
+          predicates:
+          - Path=/name/**
+          filters:
+          - StripPrefix=2  #求请求进行截取操作,截取前:http://localhost:8888/name/hello/foo,截取后:http://localhost:8888/foo
+
+        - id: prefixpath_route
+          uri: lb://cloud-producer
+          predicates:
+          - Path=/name/**
+          filters:
+          - PrefixPath=/foo #是在 URL 路径前面添加一部分的前缀
+
+        - id: hystrix_route #熔断路由
+          uri: lb://cloud-producer
+          predicates:
+          - Path=/consumingserviceendpoint
+          filters:
+          - name: Hystrix
+            args:
+              name: fallbackcmd
+              fallbackUri: forward:/fallback #当调用 Hystrix 的 fallback 被调用时，请求将转发到/incaseoffailureuset这个 URI。
+
+        - id: service_producer #路由重试
+          uri: lb://cloud-producer
+          predicates:
+          - Path=/**
+          filters:
+          - name: Retry
+            args:
+              retries: 5 #重试次数，默认值是 3 次
+              statuses: BAD_GATEWAY #HTTP 的状态返回码，取值请参考：org.springframework.http.HttpStatus
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+    shutdown:
+      enabled: false
 eureka:
   client:
     service-url:
@@ -16,3 +94,4 @@ eureka:
 logging:
   level:
     org.springframework.cloud.gateway: debug
+
