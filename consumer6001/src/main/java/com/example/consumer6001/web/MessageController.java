@@ -2,6 +2,7 @@ package com.example.consumer6001.web;
 
 import com.example.consumer6001.service.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,9 @@ public class MessageController {
     @Autowired
     HelloService helloService;
 
+    @Value("${name}")
+    private String name;
+
     @GetMapping("/show")
     public String showMessage(@RequestParam String name){
         return restTemplate.getForObject("http://cloud-producer/get?name="+name, String.class);
@@ -33,4 +37,11 @@ public class MessageController {
     public String hello(@RequestParam String name) {
         return helloService.hello( name );
     }
+
+    @GetMapping(value = "/configDev")
+    public String configDev() {
+        return "config dev = "+name;
+    }
+
+
 }

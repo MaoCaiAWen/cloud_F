@@ -3,9 +3,11 @@ server:
 spring:
   application:
     name: cloud-consumer
-eureka:
-  client:
-    service-url:
-      defaultZone: http://peer1:8000/eureka/,http://peer2:8001/eureka/,http://peer3:8002/eureka/
+#  cloud:
+#    config:
+#      uri: http://localhost:8700/
+#      profile: dev
+#      name: springcloud-config
+
 
 
