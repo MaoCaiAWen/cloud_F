@@ -11,6 +11,7 @@
         <option value="$PROJECT_DIR$/producer7002/pom.xml" />
         <option value="$PROJECT_DIR$/consumer6001/pom.xml" />
         <option value="$PROJECT_DIR$/consumer6002/pom.xml" />
+        <option value="$PROJECT_DIR$/config/pom.xml" />
       </list>
     </option>
   </component>
