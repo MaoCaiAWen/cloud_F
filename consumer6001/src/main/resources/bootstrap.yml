@@ -3,6 +3,8 @@ eureka:
     service-url:
       defaultZone: http://peer1:8000/eureka/,http://peer2:8001/eureka/,http://peer3:8002/eureka/
 spring:
+  application:
+    name: cloud-consumer
   cloud:
     config:
       # 仓库地址
@@ -13,3 +15,8 @@ spring:
       name: springcloud-config
       # 对应 {profile} 部分
       profile: dev
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh

@@ -1,13 +1,11 @@
 server:
   port: 6001
 spring:
-  application:
-    name: cloud-consumer
-#  cloud:
-#    config:
-#      uri: http://localhost:8700/
-#      profile: dev
-#      name: springcloud-config
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: 123456
 
 
 

@@ -12,6 +12,16 @@ spring:
           username: wangwenbo
           password: wangwenbo.521
       label: master
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: 123456
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 eureka:
   client:
     service-url:
