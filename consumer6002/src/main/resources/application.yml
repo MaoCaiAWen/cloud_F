@@ -3,6 +3,23 @@ server:
 spring:
   application:
     name: cloud-consumer-feign
+    #链路服务的地址
+  zipkin:
+    base-url: http://localhost:9411
+  #被追踪的可能性，默认是0.1 表示百分之10
+  sleuth:
+    sampler:
+      probability: 1.0
+#开启hystrix服务保护熔断降级
+feign:
+  hystrix:
+    enabled: true
+#开启全局监控
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 eureka:
   client:
     service-url:

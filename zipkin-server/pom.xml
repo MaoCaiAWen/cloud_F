@@ -8,33 +8,20 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>producer7001</artifactId>
+    <artifactId>zipkin-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>producer7001</name>
+    <name>zipkin-server</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
         <java.version>1.8</java.version>
+        <zipkin-server.version>2.11.4</zipkin-server.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-        <!-- 被zipkin服务追踪的启动依赖-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-zipkin</artifactId>
         </dependency>
 
         <dependency>
@@ -42,6 +29,38 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
+        <!-- 链路追踪的依赖服务 采用http上传的模式,也可采用RabbitMq kafka来传输-->
+        <dependency>
+            <groupId>io.zipkin.java</groupId>
+            <artifactId>zipkin-server</artifactId>
+            <version>${zipkin-server.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-log4j2</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- zipkinServer的ui依赖界面-->
+        <dependency>
+            <groupId>io.zipkin.java</groupId>
+            <artifactId>zipkin-autoconfigure-ui</artifactId>
+            <version>${zipkin-server.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+
+
     </dependencies>
 
     <build>

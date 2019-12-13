@@ -34,6 +34,13 @@
             <version>2.1.2.RELEASE</version>
         </dependency>
 
+        <!-- 被zipkin服务追踪的启动依赖-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+            <version>2.1.0.RELEASE</version>
+        </dependency>
+
 
         <!-- 限流算法 实现基于lua加redis桶实现 -->
         <dependency>

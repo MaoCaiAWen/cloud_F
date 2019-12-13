@@ -3,6 +3,11 @@ server:
 spring:
   application:
     name: cloud-gateway-eureka
+  sleuth:
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://localhost:9411
   redis:
     host: localhost
     password:
@@ -34,6 +39,7 @@ spring:
             key-resolver: "#{@remoteAddrKeyResolver}" #用于限流的键的解析器的 Bean 对象名字（有些绕，看代码吧）。它使用 SpEL 表达式根据#{@beanName} 从 Spring 容器中获取 Bean 对象。默认情况下，使用 PrincipalNameKeyResolver，以请求认证的 java.security.Principal 作为限流键。
           #            key-resolver: "#{@userKeyResolver}"
           predicates:
+          - Path=/test/**
           - Method=GET
 
         - id: add_request_parameter_route
@@ -42,6 +48,7 @@ spring:
           - AddRequestParameter=foo, bar #对接口foo添加入参值为bar
           - AddResponseHeader=X-Response-Default-Foo, Default-Bar #对接口添加header信息
           predicates:
+            - Path=/test/**
             - Method=GET
 
         - id: nameRoot
@@ -61,12 +68,19 @@ spring:
         - id: hystrix_route #熔断路由
           uri: lb://cloud-producer
           predicates:
-          - Path=/consumingserviceendpoint
+          - Path=/consumingserviceendpoint/**
           filters:
           - name: Hystrix
             args:
               name: fallbackcmd
               fallbackUri: forward:/fallback #当调用 Hystrix 的 fallback 被调用时，请求将转发到/incaseoffailureuset这个 URI。
+
+        - id: feign_hystrix_route
+          uri: lb://cloud-consumer-feign
+          predicates:
+          - Path=/feign/**
+          filters:
+          - StripPrefix=1 #注意需要截取一位
 
         - id: service_producer #路由重试
           uri: lb://cloud-producer

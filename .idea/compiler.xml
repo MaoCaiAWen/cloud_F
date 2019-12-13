@@ -13,6 +13,7 @@
         <module name="gateway" />
         <module name="producer7001" />
         <module name="producer7002" />
+        <module name="zipkin-server" />
       </profile>
     </annotationProcessing>
   </component>
