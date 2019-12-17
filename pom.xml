@@ -30,6 +30,7 @@
         <module>eureka</module>
         <module>gateway</module>
         <module>config</module>
+        <module>zipkin-server</module>
         <module>producer7001</module>
         <module>producer7002</module>
         <module>consumer6001</module>

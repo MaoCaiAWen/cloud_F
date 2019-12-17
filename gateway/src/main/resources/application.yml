@@ -73,7 +73,7 @@ spring:
           - name: Hystrix
             args:
               name: fallbackcmd
-              fallbackUri: forward:/fallback #当调用 Hystrix 的 fallback 被调用时，请求将转发到/incaseoffailureuset这个 URI。
+              fallbackUri: forward:/fallback #当调用 Hystrix 的 fallback 被调用时，请求将转发到/fallback  URI。
 
         - id: feign_hystrix_route
           uri: lb://cloud-consumer-feign
