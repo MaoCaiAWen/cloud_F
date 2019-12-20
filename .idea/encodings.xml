@@ -7,6 +7,9 @@
     <file url="file://$PROJECT_DIR$/consumer6002" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/eureka" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gateway" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/oauth-common" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/oauth-member" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/oauth-server" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/producer7001" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/producer7002" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/zipkin-server" charset="UTF-8" />

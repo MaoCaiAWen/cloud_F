@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: oauth-member
+
+server:
+  port: 1201
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://peer1:8000/eureka/,http://peer2:8001/eureka/,http://peer3:8002/eureka/
+security:
+  oauth2:
+    resource:
+      id: oauth-member
+      user-info-uri: http://localhost:8888/auth/api/member
+      prefer-token-info: false

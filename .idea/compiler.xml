@@ -11,6 +11,9 @@
         <module name="consumer6002" />
         <module name="eureka" />
         <module name="gateway" />
+        <module name="oauth-member" />
+        <module name="oauth-server" />
+        <module name="oauthcommon" />
         <module name="producer7001" />
         <module name="producer7002" />
         <module name="zipkin-server" />

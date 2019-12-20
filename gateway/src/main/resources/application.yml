@@ -19,6 +19,20 @@ spring:
           enabled: true #支持使用eureka的serviceId进行匹配，注意使用中划线而不是下划线
           lowerCaseServiceId: true #注意开启小写的话均必须使用小写
       routes:
+        - id: oauth_member_routes
+          uri: lb://oauth-member
+          predicates:
+          - Path=/member/**
+          filters:
+          - StripPrefix=1 #注意需要截取一位
+
+        - id: oauth_auth_routes
+          uri: lb://oauth-server
+          predicates:
+          - Path=/auth/**
+          filters:
+          - StripPrefix=1 #注意需要截取一位
+
         - id: example_routes #自定义路由拦截器
           uri: lb://cloud-consumer
           predicates:
@@ -108,4 +122,3 @@ eureka:
 logging:
   level:
     org.springframework.cloud.gateway: debug
-
